@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.db2db.mapper.source.SourceMapper">
+
+
+	<select id="test" resultType="com.example.demo.db2db.entity.Rain">
+		select
+		*
+		from
+		rain u
+	</select>
+
+
+	<!-- 获取最新的水位数据 -->
+	<select id="getRecentWaters" resultType="com.example.demo.db2db.entity.Water">
+		select
+		u.stationid,
+		u.datatime,
+		u.waterstage,
+		u.waterflow,
+		u.transtype,
+		u.messagetype,
+		u.recvdatatime,
+		u.state
+		from
+		water u
+		where
+		1=1
+		<if test="StrtDte!=null and StrtDte!=''">
+			and u.recvdatatime > #{StrtDte}
+		</if>
+		<if test="EndDte!=null and EndDte!=''">
+			and #{EndDte} >= u.recvdatatime
+		</if>
+		<if test="lists!=null">
+			and u.stationid in
+			<foreach collection="lists" item="list" separator="," open="("
+				close=")">
+				#{list}
+			</foreach>
+		</if>
+	</select>
+
+
+	<!-- 获取最新的雨量数据 -->
+	<select id="getRecentRains" resultType="com.example.demo.db2db.entity.Rain">
+		select
+		u.stationid,
+		u.datatime,
+		u.periodrain,
+		u.differencerain,
+		u.totalrain,
+		u.dayrain,
+		u.transtype,
+		u.messagetype,
+		u.recvdatatime,
+		u.state
+		from
+		rain u
+		where
+		1=1
+		<if test="StrtDte!=null and StrtDte!=''">
+			and u.recvdatatime > #{StrtDte}
+		</if>
+		<if test="EndDte!=null and EndDte!=''">
+			and #{EndDte} >= u.recvdatatime
+		</if>
+		<if test="lists!=null">
+			and u.stationid in
+			<foreach collection="lists" item="list" separator="," open="("
+				close=")">
+				#{list}
+			</foreach>
+		</if>
+
+	</select>
+
+	<!-- 获取最新的盐度数据 -->
+	<select id="getRecentSanilitys" resultType="com.example.demo.db2db.entity.Sanility">
+		select
+		u.stationid,
+		u.datatime,
+		u.temperature,
+		u.conductivity,
+		u.sanility,
+		u.recvdatatime
+		from
+		sanility u
+		where
+		1=1
+		<if test="StrtDte!=null and StrtDte!=''">
+			and u.recvdatatime > #{StrtDte}
+		</if>
+		<if test="EndDte!=null and EndDte!=''">
+			and #{EndDte} >= u.recvdatatime
+		</if>
+		<if test="lists!=null">
+			and u.stationid in
+			<foreach collection="lists" item="list" separator="," open="("
+				close=")">
+				#{list}
+			</foreach>
+		</if>
+	</select>
+	
+	<!-- 获取最新的电压数据 -->
+	<select id="getRecentVoltage" resultType="com.example.demo.db2db.entity.Voltage">
+		select
+		u.stationid,
+		u.datatime,
+		u.data,
+		u.transtype,
+		u.messagetype,
+		u.recvdatatime,
+		u.state
+		from
+		voltage u
+		where
+		1=1
+		<if test="StrtDte!=null and StrtDte!=''">
+			and u.recvdatatime > #{StrtDte}
+		</if>
+		<if test="EndDte!=null and EndDte!=''">
+			and #{EndDte} >= u.recvdatatime
+		</if>
+		<if test="lists!=null">
+			and u.stationid in
+			<foreach collection="lists" item="list" separator="," open="("
+				close=")">
+				#{list}
+			</foreach>
+		</if>
+	</select>
+
+
+	<!-- 获取IDCD数据 -->
+	<select id="getIDCDs" resultType="com.example.demo.db2db.entity.IDCD">
+		select
+		u.StationId,
+		u.STCD,
+		u.ltime
+		from
+		ID_CD u
+	</select>
+
+	<!-- 更新IDCD数据 -->
+	<select id="updateIDCDs" parameterType="java.util.Date">
+		update
+		ID_CD
+		set
+		ltime = #{date}
+	</select>
+
+	<!-- 更新IDCD数据 -->
+	<select id="insertIDCDs" parameterType="java.util.Date">
+		update
+		ID_CD
+		set
+		ltime = #{date}
+	</select>
+
+	<!-- 获取选择的水位数据 -->
+	<select id="getSelectedWaters" parameterType="java.util.Map"
+		resultType="com.example.demo.db2db.entity.Water">
+		select
+		u.stationid,
+		u.datatime,
+		u.waterstage,
+		u.waterflow,
+		u.transtype,
+		u.messagetype,
+		u.recvdatatime,
+		u.state
+		from
+		water u
+		where
+		1=1
+		<if test="StrtDte!=null and StrtDte!=''">
+			and u.datatime >= #{StrtDte}
+		</if>
+		<if test="EndDte!=null and EndDte!=''">
+			and #{EndDte} >= u.datatime
+		</if>
+		<if test="lists!=null">
+			and u.stationid in
+			<foreach collection="lists" item="list" separator="," open="("
+				close=")">
+				#{list}
+			</foreach>
+		</if>
+	</select>
+
+
+	<!-- 获取选择的雨量数据 -->
+	<select id="getSelectedRains" parameterType="java.util.Map"
+		resultType="com.example.demo.db2db.entity.Rain">
+		select
+		u.stationid,
+		u.datatime,
+		u.periodrain,
+		u.differencerain,
+		u.totalrain,
+		u.dayrain,
+		u.transtype,
+		u.messagetype,
+		u.recvdatatime,
+		u.state
+		from
+		rain u
+		where
+		1=1
+		<if test="StrtDte!=null and StrtDte!=''">
+			and u.datatime >= #{StrtDte}
+		</if>
+		<if test="EndDte!=null and EndDte!=''">
+			and #{EndDte} >= u.datatime
+		</if>
+		<if test="lists!=null">
+			and u.stationid in
+			<foreach collection="lists" item="list" separator="," open="("
+				close=")">
+				#{list}
+			</foreach>
+		</if>
+	</select>
+
+	<!-- 获取选择的盐度数据 -->
+	<select id="getSelectedSanilitys" parameterType="java.util.Map"
+		resultType="com.example.demo.db2db.entity.Sanility">
+		select
+		u.stationid,
+		u.datatime,
+		u.temperature,
+		u.conductivity,
+		u.sanility,
+		u.recvdatatime
+		from
+		sanility u
+		where
+		1=1
+		<if test="StrtDte!=null and StrtDte!=''">
+			and u.datatime >= #{StrtDte}
+		</if>
+		<if test="EndDte!=null and EndDte!=''">
+			and #{EndDte} >= u.datatime
+		</if>
+		<if test="lists!=null">
+			and u.stationid in
+			<foreach collection="lists" item="list" separator="," open="("
+				close=")">
+				#{list}
+			</foreach>
+		</if>
+	</select>
+	
+	<!-- 获取选择的电压数据 -->
+	<select id="getSelectedVoltage" resultType="com.example.demo.db2db.entity.Voltage">
+		select
+		u.stationid,
+		u.datatime,
+		u.data,
+		u.transtype,
+		u.messagetype,
+		u.recvdatatime,
+		u.state,
+		from
+		voltage u
+		where
+		1=1
+		<if test="StrtDte!=null and StrtDte!=''">
+			and u.datatime > #{StrtDte}
+		</if>
+		<if test="EndDte!=null and EndDte!=''">
+			and #{EndDte} >= u.datatime
+		</if>
+		<if test="lists!=null">
+			and u.stationid in
+			<foreach collection="lists" item="list" separator="," open="("
+				close=")">
+				#{list}
+			</foreach>
+		</if>
+	</select>
+
+
+
+
+
+</mapper>

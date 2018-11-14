@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.db2db.mapper.target.TargetMapper" >
+     
+      <!-- 转存最新的雨量数据 -->
+   <insert id ="insertRecentRains" parameterType="java.util.List" >
+           insert into cw.RAIN_R
+           (STCD,YMDHM,DATAPLUS,DATA,RTIME,WEATHER,TRANTYPE,SOURCETYPE,DEVICEID) 
+           values
+            <foreach collection ="list" item="item" index= "index" separator =",">
+                (
+                #{item.STCD},
+                #{item.YMDHM},
+                #{item.DATAPLUS},
+                #{item.DATA},
+                #{item.RTIME},
+                #{item.WEATHER},  
+                #{item.TRANTYPE},
+                #{item.SOURCETYPE},
+                #{item.DEVICEID}
+                )
+            </foreach>
+     </insert>
+ 
+    <!-- 转存最新的水位数据 -->
+    <insert id ="insertRecentWaters" parameterType="java.util.List" >
+           insert into cw.WATER_R
+           (STCD,YMDHM,DATA,WATERPROOF,RTIME,TRANTYPE,CHKTYPE,SOURCETYPE,DEVICEID) 
+           values
+            <foreach collection ="list" item="item" index= "index" separator =",">
+                (
+                #{item.STCD},
+                #{item.YMDHM},
+                #{item.DATA},
+                #{item.WATERPROOF},
+                #{item.RTIME},
+                #{item.TRANTYPE},  
+                #{item.CHKTYPE},
+                #{item.SOURCETYPE},
+                #{item.DEVICEID}
+                )
+            </foreach>
+     </insert>
+   
+     
+     <!-- 转存最新的盐度数据 -->
+     <insert id ="insertRecentSalinitys" parameterType="java.util.List" >
+           insert into cw.Salinity_R
+           (STCD,YMDHM,WT,EC,Salinity) 
+           values
+            <foreach collection ="list" item="item" index= "index" separator =",">
+                (
+                #{item.STCD},
+                #{item.YMDHM},
+                #{item.WT},
+                #{item.EC},
+                #{item.sanility}
+                )
+            </foreach>
+     </insert>
+     
+     
+     <!-- 转存最新的电压数据 -->
+     <insert id ="insertRecentVoltages" parameterType="java.util.List" >
+           insert into cw.STCOND_R
+           (STCD,YMDHM,VOL,DEV) 
+           values
+            <foreach collection ="list" item="item" index= "index" separator =",">
+                (
+                #{item.STCD},
+                #{item.YMDHM},
+                #{item.VOL},
+                #{item.DEV}
+                )
+            </foreach>
+     </insert>
+    
+    
+     
+</mapper>
